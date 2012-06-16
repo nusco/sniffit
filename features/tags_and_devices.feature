@@ -14,7 +14,7 @@ Then I HTTP PUT to http://sniffit.heroku.com/api/xyzw/lost_link_to/abcd
 Scenario: Pick up broadcast
 When I have a device located at 40.123, 60.123
 And I pick up a broadcast from a tag with id "abcd"
-Then I HTTP PUT to http://sniffit.heroku.com/api/device_at/40.123/60.123/found/abcd
+Then I HTTP PUT to http://sniffit.heroku.com/api/abcd/found_at/40.123,60.123
 
 Scenario: Ask server for lost tag (which has not yet been found)
 When I have a device with id "xyzw" and a paired tag "abcd"

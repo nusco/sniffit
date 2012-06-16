@@ -22,14 +22,14 @@ class Sniffit < Sinatra::Base
     200
   end
   
-  put '/api/device_at/:lat/:long/found/:tag' do |lat, long, tag|
-    $TAG_LOCATION[tag] = [lat, long]
+  put '/api/:tag/found_at/:latlong' do |tag, latlong|
+    $TAG_LOCATION[tag] = latlong
     200
   end
   
   get '/api/lost_tags/:tag' do |tag|
     location = $TAG_LOCATION[tag]
     return 404 unless location
-    [200, {}, location.join(',')]
+    [200, {}, location]
   end
 end

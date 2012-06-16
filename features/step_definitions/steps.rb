@@ -23,9 +23,9 @@ Then /^I HTTP PUT to http:\/\/sniffit\.heroku\.com\/(.*?)$/ do |url|
   @response = RestClient.put "#{SERVER}\/#{url}", {}
 end
 
-When /^somebody does an HTTP PUT to http:\/\/sniffit\.heroku\.com\/api\/device_at\/(\d+\.\d+)\/(\d+\.\d+)\/found\/(.*?)$/ do |lat, long, tag|
-  @lat, @long = lat, long
-  @response = RestClient.put "#{SERVER}\/api/device_at/#{lat}/#{long}/found/#{tag}", {}  
+When /^somebody does an HTTP PUT to http:\/\/sniffit\.heroku\.com\/api\/device_at\/(\d+\.\d+)\/(\d+\.\d+)\/found\/(.*?)$/ do |tag, latlong|
+  @latlong = latlong
+  @response = RestClient.put "#{SERVER}\/api/#{tag}/found_at/#{latlong}", {}  
 end
 
 When /^I lose the link to the tag$/ do
@@ -39,8 +39,8 @@ end
 When /^the user confirms that the tag is lost$/ do
 end
 
-When /^I have a device located at (\d+\.\d+), (\d+\.\d+)$/ do |lat, long|
-  @lat, @long = lat, long
+When /^I have a device located at (\.*?)$/ do |latlong|
+  @latlong = latlong
 end
 
 When /^I pick up a broadcast from a tag with id "(.*?)"$/ do |id|
@@ -60,5 +60,5 @@ Then /^I get a (\d+)$/ do |return_code|
 end
 
 Then /^I see the geospatial data of the lost device in the response$/ do
-  @response.body.should == "#{@lat},#{@long}"
+  @response.body.should == "#{@latlong}"
 end
