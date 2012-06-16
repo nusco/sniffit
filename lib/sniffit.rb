@@ -2,6 +2,7 @@ require 'bundler/setup'
 require 'sinatra'
 
 $TAG_LOCATION = {}
+$LOST_TAGS = []
 
 class Sniffit < Sinatra::Base
   get '/' do
@@ -12,24 +13,27 @@ class Sniffit < Sinatra::Base
     $TAG_LOCATION = {}
   end
 
-  put '/api/:device/linked_to/:tag' do |device, tag|
-    $TAG_LOCATION[tag] = [0, 0]
+  put '/api/:tag/linked' do |tag|
     200
   end
 
-  put '/api/:device/lost_link_to/:tag' do |device, tag|
-    $TAG_LOCATION[tag] = nil
+  put '/api/:tag/lost_at/:latlong' do |tag, latlong|
+    $LOST_TAGS << tag
+    $TAG_LOCATION[tag] = latlong
     200
   end
   
   put '/api/:tag/found_at/:latlong' do |tag, latlong|
+    $LOST_TAGS.delete tag
     $TAG_LOCATION[tag] = latlong
     200
   end
   
   get '/api/lost_tags/:tag' do |tag|
-    location = $TAG_LOCATION[tag]
-    return 404 unless location
-    [200, {}, location]
+    if $LOST_TAGS.include? tag
+      404
+    else
+      [200, {}, $TAG_LOCATION[tag]]
+    end
   end
 end

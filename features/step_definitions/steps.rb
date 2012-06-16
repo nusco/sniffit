@@ -10,45 +10,41 @@ Before do
   RestClient.delete "#{SERVER}\/"
 end
 
-When /^I have a device with id "(.*?)" and a tag "(.*?)"$/ do |device, tag|
-  @device, @tag = device, tag
+When /^I have a device that wants to link to a tag "(.*?)"$/ do |tag|
+  @tag = tag
 end
 
-When /^I have a device with id "(.*?)" and a paired tag "(.*?)"$/ do |device, tag|
-  @device, @tag = device, tag
-  @response = RestClient.put "#{SERVER}\/api/#{device}/linked_to/#{tag}", {}
+When /^I have a device linked to a tag "(.*?)"$/ do |tag|
+  @tag = tag
+  @response = RestClient.put "#{SERVER}/api/#{tag}/linked", {}
 end
 
-Then /^I HTTP PUT to http:\/\/sniffit\.heroku\.com\/(.*?)$/ do |url|
-  @response = RestClient.put "#{SERVER}\/#{url}", {}
+Then /^I HTTP PUT to (.*?)$/ do |url|
+  @response = RestClient.put "#{SERVER}#{url}", {}
 end
 
-When /^somebody does an HTTP PUT to http:\/\/sniffit\.heroku\.com\/api\/device_at\/(\d+\.\d+)\/(\d+\.\d+)\/found\/(.*?)$/ do |tag, latlong|
+When /^somebody does an HTTP PUT to \/api\/(.*?)\/found_at\/(.*?)$/ do |tag, latlong|
   @latlong = latlong
   @response = RestClient.put "#{SERVER}\/api/#{tag}/found_at/#{latlong}", {}  
 end
 
-When /^I lose the link to the tag$/ do
-  @response = RestClient.put "#{SERVER}\/api/#{@device}/lost_link_to/#{@tag}", {}
-end
-
-When /^I've lost the link to the tag$/ do
-  @response = RestClient.put "#{SERVER}\/api/#{@device}/lost_link_to/#{@tag}", {}
+When /^I(.*?) sight of the tag at (.*?)$/ do |_, latlong|
+  @response = RestClient.put "#{SERVER}\/api/#{@tag}/lost_at/#{latlong}", {}
 end
 
 When /^the user confirms that the tag is lost$/ do
 end
 
-When /^I have a device located at (\.*?)$/ do |latlong|
+When /^I have a device located at (.*?)$/ do |latlong|
   @latlong = latlong
 end
 
 When /^I pick up a broadcast from a tag with id "(.*?)"$/ do |id|
 end
 
-Then /^I poll HTTP GET http:\/\/sniffit\.heroku\.com\/(.*?)$/ do |url|
+Then /^I poll HTTP GET (.*?)$/ do |url|
   begin
-    @response = RestClient.get "#{SERVER}\/#{url}"
+    @response = RestClient.get "#{SERVER}#{url}"
     @return_code = @response.code
   rescue Exception => e
     @return_code = 404
