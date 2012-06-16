@@ -1,3 +1,4 @@
+require 'bundler/setup'
 require 'rest_client'
 require 'rspec'
 
@@ -24,6 +25,7 @@ end
 
 When /^somebody does an HTTP PUT to http:\/\/sniffit\.heroku\.com\/api\/device_at\/(\d+\.\d+)\/(\d+\.\d+)\/found\/(.*?)$/ do |lat, long, tag|
   @lat, @long = lat, long
+  @response = RestClient.put "#{SERVER}\/api/device_at/#{lat}/#{long}/found/#{tag}", {}  
 end
 
 When /^I lose the link to the tag$/ do

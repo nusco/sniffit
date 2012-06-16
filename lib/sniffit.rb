@@ -2,7 +2,6 @@ require 'bundler/setup'
 require 'sinatra'
 
 $TAG_LOCATION = {}
-$LINKED_LOCATION = [0, 0]
 
 class Sniffit < Sinatra::Base
   get '/' do
@@ -14,7 +13,7 @@ class Sniffit < Sinatra::Base
   end
 
   put '/api/:device/linked_to/:tag' do |device, tag|
-    $TAG_LOCATION[tag] = $LINKED_LOCATION
+    $TAG_LOCATION[tag] = [0, 0]
     200
   end
 
