@@ -10,11 +10,11 @@ class Sniffit < Sinatra::Base
   end
   
   delete '/' do
-    $TAG_LOCATION = {}
+    $TAG_LOCATION.clear
+    $LOST_TAGS.clear
   end
 
-  put '/api/:tag/linked' do |tag|
-    200
+  put '/api/:tag/linked' do
   end
 
   put '/api/:tag/lost_at/:latlong' do |tag, latlong|
