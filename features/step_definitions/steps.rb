@@ -1,7 +1,7 @@
 require 'rest_client'
 require 'rspec'
 
-#SERVER = "http://snippit.heroku.com"
+#SERVER = "http://sniffit.heroku.com"
 SERVER = "http://localhost:9292"
 
 Before do
@@ -18,11 +18,11 @@ When /^I have a device with id "(.*?)" and a paired tag "(.*?)"$/ do |device, ta
   @response = RestClient.put "#{SERVER}\/api/#{device}/linked_to/#{tag}", {}
 end
 
-Then /^I HTTP PUT to http:\/\/www\.snipph\.it\/(.*?)$/ do |url|
+Then /^I HTTP PUT to http:\/\/sniffit\.heroku\.com\/(.*?)$/ do |url|
   @response = RestClient.put "#{SERVER}\/#{url}", {}
 end
 
-When /^somebody does an HTTP PUT to http:\/\/www\.snipph\.it\/api\/device_at\/(\d+\.\d+)\/(\d+\.\d+)\/found\/(.*?)$/ do |lat, long, tag|
+When /^somebody does an HTTP PUT to http:\/\/sniffit\.heroku\.com\/api\/device_at\/(\d+\.\d+)\/(\d+\.\d+)\/found\/(.*?)$/ do |lat, long, tag|
   @lat, @long = lat, long
 end
 
@@ -44,7 +44,7 @@ end
 When /^I pick up a broadcast from a tag with id "(.*?)"$/ do |id|
 end
 
-Then /^I poll HTTP GET http:\/\/www\.snipph\.it\/(.*?)$/ do |url|
+Then /^I poll HTTP GET http:\/\/sniffit\.heroku\.com\/(.*?)$/ do |url|
   begin
     @response = RestClient.get "#{SERVER}\/#{url}"
     @return_code = @response.code

@@ -4,7 +4,11 @@ require 'sinatra'
 $TAG_LOCATION = {}
 $LINKED_LOCATION = [0, 0]
 
-class Sniffit < Sinatra::Base  
+class Sniffit < Sinatra::Base
+  get '/' do
+    [200, {"Content-Type" => "text/plain"}, File.read('features/tags_and_devices.feature')]
+  end
+  
   delete '/' do
     $TAG_LOCATION = {}
   end
