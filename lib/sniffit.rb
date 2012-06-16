@@ -10,8 +10,8 @@ class Sniffit < Sinatra::Base
   end
   
   delete '/' do
-    $TAG_LOCATION.clear
     $LOST_TAGS.clear
+    $TAG_LOCATION.clear
   end
 
   put '/api/:tag/linked' do
