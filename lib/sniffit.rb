@@ -2,7 +2,9 @@ require 'bundler/setup'
 require 'sinatra'
 
 class Sniffit < Sinatra::Base
-  get '/' do
-    "hello, world"
+  put '/api/:device/linked_to/:tag' do
+    @links ||= {}
+    @links[device] = tag
+    200
   end
 end
